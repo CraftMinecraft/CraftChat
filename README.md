@@ -5,9 +5,9 @@ Craft Chat is the Chat Plugin designed for the Craft Minecraft Network.  Custom 
 ## Ideas
 
 * **HelpOp** 
-           * Will search for staff on other servers that are part of the network, will shop the helpop message to only the staff that can help
-           * Have a reply command so user knows if someone is on the way to help (Maybe?)
-           * Let the user know if noone is on that can help
+ * Will search for staff on other servers that are part of the network, will shop the helpop message to only the staff that can help
+ * Have a reply command so user knows if someone is on the way to help (Maybe?)
+ * Let the user know if noone is on that can help
 
 * **Msg** - Inner server messaging, if on friends list
           - Check if user is on local server, if so message that user
