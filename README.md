@@ -42,4 +42,8 @@ Craft Chat is the Chat Plugin designed for the Craft Minecraft Network.  Custom 
 
 ## Configuration
 
+<<<<<<< HEAD
 Configuration File TBD
+=======
+Configuration File TBD
+>>>>>>> 846976fcce09d6ef4e9270ac8d3227602ff19785
