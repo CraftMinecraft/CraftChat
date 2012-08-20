@@ -20,3 +20,11 @@ Craft Chat is the Chat Plugin designed for the Craft Minecraft Network.  Custom 
  * Will show list on logon which friends are online and what server they are on
  * Friend will see message saying "Your friend, <name> has logged into <server>
  * Friend will need to accept new friends
+
+## Permissions
+
+Permission Keys TBD
+
+## Configuration
+
+Configuration File TBD
