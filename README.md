@@ -35,7 +35,10 @@ Craft Chat is the Chat Plugin designed for the Craft Minecraft Network.  Custom 
 
 ## Permissions
 
-Permission Keys TBD
+* **cmc.friend** - allow /friend add, remove, list, accept, deny command
+* **cmc.helpop** - allow /helop command
+* **cmc.message** - allow /tell, /msg, /r
+* **cmc.message.override** - allow innerserver communications even if not in friends list
 
 ## Configuration
 
