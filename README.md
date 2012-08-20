@@ -41,9 +41,4 @@ Craft Chat is the Chat Plugin designed for the Craft Minecraft Network.  Custom 
 * **cmc.message.override** - allow innerserver communications even if not in friends list
 
 ## Configuration
-
-<<<<<<< HEAD
 Configuration File TBD
-=======
-Configuration File TBD
->>>>>>> 846976fcce09d6ef4e9270ac8d3227602ff19785
