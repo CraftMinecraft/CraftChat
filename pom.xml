@@ -16,7 +16,7 @@
   </scm>
   <ciManagement>
     <system>jenkins</system>
-    <url>http://dev.craftminecraft.com/jenkins/</url>
+    <url>http://dev.craftminecraft.net/</url>
   </ciManagement>
   <repositories>
     <repository>
