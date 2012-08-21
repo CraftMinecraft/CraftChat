@@ -13,8 +13,8 @@ public class ChatListener implements Listener {
 
     private CraftChat plugin;
 
-    public ChatListener(CraftChat plugin){
-        this.plugin = plugin;
+    public ChatListener(CraftChat instance){
+        plugin = instance;
     }
 
     @EventHandler
@@ -22,7 +22,7 @@ public class ChatListener implements Listener {
         if(event.isCancelled()){
             return;
         } else {
-            String format = this.plugin.getConfig().getString("craftchat.format");
+            String format = this.plugin.getConfig().getString("format");
             format.replace("{WORLDNAME}", event.getPlayer().getWorld().getName());
             format.replace("{PREFIX}", CraftChat.chat.getPlayerPrefix(event.getPlayer()));
             format.replace("{SUFFIX}", CraftChat.chat.getPlayerSuffix(event.getPlayer()));

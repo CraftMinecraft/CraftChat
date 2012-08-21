@@ -12,10 +12,14 @@ import com.craftminecraft.craftchat.listeners.ChatListener;
 
 public class CraftChat extends JavaPlugin {
     public static Chat chat = null;
-
+    public static CraftChat instance;
     @Override
     public void onEnable() {
+        instance = this;
         getLogger().info("Enabling CraftChat");
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+           getServer().getPluginManager().unloadPlugin(this); 
+        }
         setupChat();
         getServer().getPluginManager().registerEvents(new ChatListener(this), this);
     }
