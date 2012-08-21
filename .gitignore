@@ -37,3 +37,4 @@ Thumbs.db
 /bin
 .classpath
 .settings
+/target
