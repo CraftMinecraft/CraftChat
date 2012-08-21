@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project name="CraftChat" default="dist" basedir=".">
+	<property name="pluginname" value="CraftChat"/>
+		
+    <!-- Libraries -->
+    <fileset dir="${api}" id="api">
+        <include name="*.jar"/>
+    </fileset>
+
+    <!-- Jenkins integration -->
+    <property environment="env"/>
+
+    <condition property="BUILD_NUMBER" value="${env.BUILD_NUMBER}" else="MANUAL">
+        <isset property="env.BUILD_NUMBER"/>
+    </condition>
+    <condition property="GIT_COMMIT_FULL" value="${env.GIT_COMMIT}" else="MANUAL">
+        <isset property="env.GIT_COMMIT"/>
+    </condition>
+
+	<target name="changeversion">
+        <!-- Load the version -->
+        <loadfile srcfile="VERSION" property="VERSION"/>
+		
+        <!-- Replace ${VERSION} with the version number in plugin.yml -->
+        <replace file="plugin.yml" value="${VERSION} (b${BUILD_NUMBER})">
+            <replacefilter token="CRAFTDEV"/>
+        </replace>
+	</target>
+
+</project>
