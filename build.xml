@@ -17,7 +17,7 @@
         <isset property="env.GIT_COMMIT"/>
     </condition>
 
-	<target name="changeversion">
+	<target name="dist">
         <!-- Load the version -->
         <loadfile srcfile="VERSION" property="VERSION"/>
 		
