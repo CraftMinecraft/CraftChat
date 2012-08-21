@@ -2,6 +2,9 @@
 
 Craft Chat is the Chat Plugin designed for the Craft Minecraft Network.  Custom chat client to link servers, and link back to a master database through api
 
+## Compilation
+To compile, you will first need to download Vault.jar version 1.2.17 and put it in your local maven repository (.m2 folder). Then, run maven clean package goal.
+
 ## Ideas
 
 * **HelpOp** 
@@ -35,10 +38,10 @@ Craft Chat is the Chat Plugin designed for the Craft Minecraft Network.  Custom 
 
 ## Permissions
 
-* **cmc.friend** - allow /friend add, remove, list, accept, deny command
-* **cmc.helpop** - allow /helop command
-* **cmc.message** - allow /tell, /msg, /r
-* **cmc.message.override** - allow innerserver communications even if not in friends list
+* **cmc.chat.friend** - allow /friend add, remove, list, accept, deny command
+* **cmc.chat.helpop** - allow /helop command
+* **cmc.chat.message** - allow /tell, /msg, /r
+* **cmc.chat.message.override** - allow innerserver communications even if not in friends list
 
 ## Configuration
-Configuration File TBD
+* **craftchat.format** - Format of the craftchat

@@ -32,6 +32,12 @@
       <version>1.2.5-R5.0</version>
       <scope>compile</scope>
     </dependency>
+    <dependency>
+      <groupId>net.milkbowl.vault</groupId>
+      <artifactId>Vault</artifactId>
+      <version>1.2.17</version>
+      <scope>compile</scope>
+    </dependency>
   </dependencies>
   <build>
     <defaultGoal>clean package install</defaultGoal>
@@ -43,6 +49,7 @@
         <directory>${basedir}/src/</directory>
         <includes>
           <include>plugin.yml</include>
+          <include>config.yml</include>
         </includes>
       </resource>
     </resources>
@@ -93,6 +100,12 @@
               <excludes>
                 <exclude>META-INF/*.SF</exclude>
                 <exclude>META-INF/*.DSA</exclude>
+              </excludes>
+            </filter>
+            <filter>
+              <artifact>org.bukkit:bukkit</artifact>
+              <excludes>
+                <exclude>**/**</exclude>
               </excludes>
             </filter>
           </filters>

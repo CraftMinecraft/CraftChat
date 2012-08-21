@@ -1,0 +1,18 @@
+name: CraftChat
+version: 0.1-DEV
+description: CraftMineCraft's chat client.
+authors: [roblabla, FireBall1725]
+main: com.craftminecraft.craftchat.CraftChat
+commands:
+  msg:
+    description: Sends message to a player on network.
+    aliases: tell
+    permission: cmc.chat.message
+    usage: "Usage : /<command> [player] [message]"
+permissions:
+  cmc.chat.message:
+    description: Sends message to a player on network.
+    default: true
+  cmc.chat.message.override:
+    description: Allows to send message to anyone, even if not in friend list.
+    default: op
