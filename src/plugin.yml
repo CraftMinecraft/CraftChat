@@ -1,6 +1,6 @@
 name: craftchat
 # REPLACE VERSION NUMBER IN ANT BUILD FILE ON JENKINS #
-version: ##version##
+version: CRAFTDEV
 description: Craft Minecraft Chat Plugin
 authors: [FireBall1725, roblabla]
 website: http://www.craftminecraft.com
