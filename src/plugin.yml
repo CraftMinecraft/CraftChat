@@ -5,7 +5,7 @@ description: Craft Minecraft Chat Plugin
 authors: [FireBall1725, roblabla]
 website: http://www.craftminecraft.com
 
-main: com.craftminecraft.chatcraft.CraftChat
+main: com.craftminecraft.craftchat.CraftChat
 database: false
 
 commands:
