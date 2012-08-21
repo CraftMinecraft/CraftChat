@@ -101,4 +101,8 @@
       </plugin>
     </plugins>
   </build>
+  <organization>
+  	<name>Craft Minecraft Network</name>
+  	<url>http://www.craftminecraft.com</url>
+  </organization>
 </project>

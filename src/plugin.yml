@@ -1,0 +1,25 @@
+name: craftchat
+# REPLACE VERSION NUMBER IN ANT BUILD FILE ON JENKINS #
+version: ##version##
+description: Craft Minecraft Chat Plugin
+authors: [FireBall1725, roblabla]
+website: http://www.craftminecraft.com
+
+main: com.craftminecraft.chatcraft.CraftChat
+database: false
+
+commands:
+  msg:
+    description: Send message to user
+    aliases: m
+    permission: cmc.message
+    usage: /<command> <player> <message>
+    
+  # TODO: ADD MORE COMMANDS
+    
+permissions:
+  cmc.message:
+    description: Allows user to use the /msg command
+    default: false
+  
+  # TODO: ADD MORE PERMISSIONS
