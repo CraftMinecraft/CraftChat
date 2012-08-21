@@ -1,8 +1,13 @@
-name: CraftChat
-version: 0.1-DEV
-description: CraftMineCraft's chat client.
-authors: [roblabla, FireBall1725]
-main: com.craftminecraft.craftchat.CraftChat
+name: craftchat
+# REPLACE VERSION NUMBER IN ANT BUILD FILE ON JENKINS #
+version: ##version##
+description: Craft Minecraft Chat Plugin
+authors: [FireBall1725, roblabla]
+website: http://www.craftminecraft.com
+
+main: com.craftminecraft.chatcraft.CraftChat
+database: false
+
 commands:
   msg:
     description: Sends message to a player on network.
