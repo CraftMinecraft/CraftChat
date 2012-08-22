@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project name="CraftChat" default="dist" basedir=".">
 	<property name="pluginname" value="CraftChat"/>
-		
+	<property name="src" value="src"/>
+	
     <!-- Libraries -->
     <fileset dir="${api}" id="api">
         <include name="*.jar"/>
@@ -22,7 +23,7 @@
         <loadfile srcfile="VERSION" property="VERSION"/>
 		
         <!-- Replace ${VERSION} with the version number in plugin.yml -->
-        <replace file="plugin.yml" value="${VERSION} (b${BUILD_NUMBER})">
+        <replace file="${src}/plugin.yml" value="${VERSION} (b${BUILD_NUMBER})">
             <replacefilter token="CRAFTDEV"/>
         </replace>
 	</target>
