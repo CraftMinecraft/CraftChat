@@ -16,7 +16,7 @@ public class CraftChat extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        getLogger().info("Enabling CraftChat");
+        getLogger().info("Enabling CraftChat version " + getDescription().getVersion());
         if (getServer().getPluginManager().getPlugin("Vault") == null) {
            getServer().getPluginManager().unloadPlugin(this); 
         }
