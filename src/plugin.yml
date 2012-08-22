@@ -8,6 +8,7 @@ website: http://www.craftminecraft.com
 depend: [Vault]
 main: com.craftminecraft.craftchat.CraftChat
 database: false
+prefix: CraftChat
 
 commands:
   msg:
