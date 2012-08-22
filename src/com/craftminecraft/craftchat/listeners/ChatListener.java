@@ -22,10 +22,32 @@ public class ChatListener implements Listener {
         if(event.isCancelled()){
             return;
         } else {
+<<<<<<< HEAD
             String format = this.plugin.getConfig().getString("format");
             format.replace("{WORLDNAME}", event.getPlayer().getWorld().getName());
             format.replace("{PREFIX}", CraftChat.chat.getPlayerPrefix(event.getPlayer()));
             format.replace("{SUFFIX}", CraftChat.chat.getPlayerSuffix(event.getPlayer()));
+=======
+            String format = this.plugin.getConfig().getString("craftchat.format");
+            format.replace("{WORLDNAME}", event.getPlayer().getWorld().getName());          
+            
+            // Verify that the prefix is not null
+            if (CraftChat.chat.getPlayerPrefix(event.getPlayer()).equals(null))
+            {
+            	format.replace("{PREFIX}", "");
+            } else {
+            	format.replace("{PREFIX}", CraftChat.chat.getPlayerPrefix(event.getPlayer()));
+            }
+            
+            // Verify that the suffix is not null
+            if (CraftChat.chat.getPlayerSuffix(event.getPlayer()).equals(null))
+            {
+            	format.replace("{SUFFIX}", "");
+            } else {
+            	format.replace("{SUFFIX}", CraftChat.chat.getPlayerPrefix(event.getPlayer()));
+            }
+            
+>>>>>>> Added something to catch null
             format.replace("{REALNAME}", event.getPlayer().getName());
             format.replace("{DISPLAYNAME}", event.getPlayer().getDisplayName());
             format.replace("{CHANNEL}", "G");

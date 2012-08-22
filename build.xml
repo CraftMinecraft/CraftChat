@@ -26,6 +26,8 @@
         <replace file="${src}/plugin.yml" value="${VERSION} (b${BUILD_NUMBER})">
             <replacefilter token="CRAFTDEV"/>
         </replace>
+        
+        <echo>Replacing version info with Jenkins Build Number ${BUILD_NUMBER}</echo>
 	</target>
 
 </project>
