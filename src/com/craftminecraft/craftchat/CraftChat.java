@@ -9,20 +9,20 @@ import org.bukkit.event.HandlerList;
 import net.milkbowl.vault.chat.Chat;
 
 import com.craftminecraft.craftchat.listeners.ChatListener;
+import com.craftminecraft.craftchat.ChatManager;
 
 public class CraftChat extends JavaPlugin {
     public static Chat chat = null;
     public static CraftChat instance;
+    public ChatManager chatManager;
+
     @Override
     public void onEnable() {
-        instance = this;
+        CraftChat.instance = this;
         // TODO : Should probably map the config and set the defaults dynamically, JIC someone screws up their config file.
-        getConfig();
         getLogger().info("Enabling CraftChat version " + getDescription().getVersion());
-        if (getServer().getPluginManager().getPlugin("Vault") == null) {
-           getServer().getPluginManager().disablePlugin(this); 
-        }
-        setupChat();
+        loadConfiguration();
+        setupVault();
         getServer().getPluginManager().registerEvents(new ChatListener(this), this);
     }
 
@@ -31,9 +31,22 @@ public class CraftChat extends JavaPlugin {
         getLogger().info("Disabling CraftChat");
         HandlerList.unregisterAll(this);
     }
-    private Boolean setupChat() {
+
+    private Boolean setupVault() {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+           getServer().getPluginManager().disablePlugin(this); 
+        }
         RegisteredServiceProvider<Chat> chatProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.chat.Chat.class);
         if (chatProvider != null) chat = chatProvider.getProvider();
         return (chat != null);
+    }
+
+    private void loadConfiguration(){
+        this.getConfig().options().copyDefaults(true);
+        this.saveConfig();
+    }
+
+    public static CraftChat getInstance() {
+        return CraftChat.instance;
     }
 }

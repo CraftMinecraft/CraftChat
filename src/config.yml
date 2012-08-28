@@ -1,1 +1,10 @@
+# Set the format of the chat.
+# Formatters ; 
+# {WORLDNAME} : The name of the world the player is in.
+# {DISPNAME} : The display name of the player who sent the message.
+# {NAME} : The real, untouched username of the player who sent the message.
+# {MESSAGE} : The message.
+# {PREFIX} : The group prefix of the player.
+# {SUFFIX} : The group suffix of the player.
+
 format: "{WORLDNAME} {DISPNAME} : {MESSAGE}"
