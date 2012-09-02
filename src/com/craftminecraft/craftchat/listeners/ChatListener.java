@@ -10,6 +10,8 @@ import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -38,35 +40,22 @@ public final class ChatListener implements Listener {
         }
     }*/
 
+    @EventHandler
+    public void onPlayerJoinEvent(final PlayerJoinEvent event) {
+        this.plugin.chatManager.autoJoinChannels(event.getPlayer());
+    }
+
+    @EventHandler
+    public void onPlayerLeaveEvent(final PlayerQuitEvent event) {
+        this.plugin.chatManager.autoLeaveChannels(event.getPlayer());
+    }
+// Lowest priority ? Monitor priority ?
     @EventHandler(ignoreCancelled = true)
     public void onAsyncPlayerChatEvent(final AsyncPlayerChatEvent event){
         this.plugin.getLogger().info("Chat handled");
-        //this.plugin.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin, new Runnable() {
-        //     public void run() {
-                String format = ChatListener.parseAndReplace(CraftChat.getInstance().getConfig().getString("format"), event.getPlayer());
-                CraftChat.getInstance().getLogger().info(format);
-                event.setFormat(format);
-                CraftChat.getInstance().getLogger().info(event.getFormat());
-        //    }
-        //});
-    }
-    public static String parseAndReplace(String format, Player p) {
-        format = format.replace("{WORLDNAME}", p.getWorld().getName());
-        // Verify that the prefix is not null
-        if (CraftChat.chat != null) {
-            if (CraftChat.chat.getPlayerPrefix(p) != null) {
-                format = format.replace("{PREFIX}", CraftChat.chat.getPlayerPrefix(p));
-            }
-            if (CraftChat.chat.getPlayerSuffix(p) != null) {
-                format = format.replace("{SUFFIX}", CraftChat.chat.getPlayerPrefix(p));
-            }
-        }
-        format = format.replace("{PREFIX}", "");
-        format = format.replace("{SUFFIX}", "");
-        format = format.replace("{REALNAME}", p.getName());
-        format = format.replace("{DISPNAME}", "%1$s");
-        format = format.replace("{CHANNEL}", "G");
-        format = format.replace("{MESSAGE}", "%2$s");
-        return format;
+        event.setFormat(this.plugin.chatManager.formatString(event.getPlayer()));
+        this.plugin.getLogger().info(event.getFormat());
+        event.getRecipients().clear();
+        event.getRecipients().addAll(this.plugin.chatManager.getFocus(event.getPlayer()).getParticipants());
     }
 }

@@ -6,5 +6,5 @@
 # {MESSAGE} : The message.
 # {PREFIX} : The group prefix of the player.
 # {SUFFIX} : The group suffix of the player.
-
-format: "{WORLDNAME} {DISPNAME} : {MESSAGE}"
+formats:
+    default: "{WORLDNAME} {DISPNAME} : {MESSAGE}"

@@ -11,6 +11,10 @@ database: false
 prefix: CraftChat
 
 commands:
+  cc:
+    description: Main command.
+    aliases: [chat, craftchat]
+    usage: "Use /<command> help for more information"
   msg:
     description: Sends message to a player on network.
     aliases: tell

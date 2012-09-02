@@ -10,6 +10,7 @@ import net.milkbowl.vault.chat.Chat;
 
 import com.craftminecraft.craftchat.listeners.ChatListener;
 import com.craftminecraft.craftchat.ChatManager;
+import com.craftminecraft.craftchat.commands.CraftChatExecutor;
 
 public class CraftChat extends JavaPlugin {
     public static Chat chat = null;
@@ -23,7 +24,8 @@ public class CraftChat extends JavaPlugin {
         getLogger().info("Enabling CraftChat version " + getDescription().getVersion());
         loadConfiguration();
         setupVault();
-        getServer().getPluginManager().registerEvents(new ChatListener(this), this);
+        setupCommands();
+        setupEvents();
     }
 
     @Override
@@ -44,6 +46,14 @@ public class CraftChat extends JavaPlugin {
     private void loadConfiguration(){
         this.getConfig().options().copyDefaults(true);
         this.saveConfig();
+    }
+
+    private void setupCommands(){
+        getCommand("cc").setExecutor(new CraftChatExecutor(this));
+    }
+
+    private void setupEvents(){
+        getServer().getPluginManager().registerEvents(new ChatListener(this), this);
     }
 
     public static CraftChat getInstance() {
