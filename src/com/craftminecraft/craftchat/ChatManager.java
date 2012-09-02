@@ -123,9 +123,9 @@ public class ChatManager {
     public String formatString(Player player, Channel channel) {
         String format = channel.getFormat();
         for (String formatname : formats.keySet()) {
-            format = format.replace("{" + formatname + "}", formats.get(formatname));
+            format = format.replaceAll("(?i){" + formatname + "}", formats.get(formatname));
         }
-        return Utils.formatString(format, player);
+        return Utils.formatString(format, player, channel);
     }
 
     public void chat(Player sender, String message, Channel channel) {

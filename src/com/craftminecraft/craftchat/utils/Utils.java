@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import net.milkbowl.vault.chat.Chat;
 
 import com.craftminecraft.craftchat.CraftChat;
+import com.craftminecraft.craftchat.conversations.Channel;
 
 public class Utils {
     public static String getPrefix(Player p) {
@@ -41,16 +42,16 @@ public class Utils {
         return suffix;
     }
 
-    public static String formatString(String message, Player player){
-        message = message.replace("{WORLDNAME}", player.getWorld().getName());
-        message = message.replace("{PREFIX}", getPrefix(player));
-        message = message.replace("{SUFFIX}", getSuffix(player));
-        message = message.replace("{PREFIX}", "");
-        message = message.replace("{SUFFIX}", "");
-        message = message.replace("{REALNAME}", player.getName());
-        message = message.replace("{DISPNAME}", "%1$s");
-        message = message.replace("{CHANNEL}", "G");
-        message = message.replace("{MESSAGE}", "%2$s");
+    public static String formatString(String message, Player player, Channel channel){
+        message = message
+                  .replaceAll("(?i){WORLDNAME}", player.getWorld().getName())
+                  .replaceAll("(?i){PREFIX}", getPrefix(player))
+                  .replaceAll("(?i){SUFFIX}", getSuffix(player))
+                  .replaceAll("(?i){REALNAME}", player.getName())
+                  .replaceAll("(?i){DISPNAME}", "%1$s")
+                  .replaceAll("(?i){CHANNELNAME}", channel.getName())
+                  .replaceAll("(?i){CHANNELNICK}", channel.getNick())
+                  .replaceAll("(?i){MESSAGE}", "%2$s");
         return message;
     } 
 }
