@@ -57,18 +57,14 @@ public class Utils {
                   .replaceAll("(?i)" + Pattern.quote("{CHANNELNICK}"), channel.getNick())
                   .replaceAll("(?i)" + Pattern.quote("{CHANNELCOLOR}"), channel.getColor())
                   .replaceAll("(?i)" + Pattern.quote("{MESSAGE}"), "%2\\$s");
-        Matcher matcher = Pattern.compile("(?i)\\{color.[a-zA-Z_]+\\}").matcher(message);
+        Matcher matcher = Pattern.compile("(?i)\\{color\\.[a-z_]+\\}").matcher(message);
         while (matcher.find()) {
             String match = matcher.group();
+            CraftChat.getInstance().getLogger().info("I have a match : " + match);
             String colorstr = match.substring(7, match.length() - 1);
-            message.replaceAll(Pattern.quote(match), "\u00A7" + ChatColor.valueOf(colorstr.toUpperCase()).toString());
+            message = message.replaceAll(Pattern.quote(match), ChatColor.valueOf(colorstr.toUpperCase()).toString());
         }
-        if (player.hasPermission("craftchat.colors")) {
-            message = message.replaceAll("&([0-9a-f])", "\u00A7$1");
-        } else {
-            message = message.replaceAll("&([0-9a-f])", "")
-                             .replaceAll("\u00A7([0-9a-f])", "");
-        }
+        message = message.replaceAll("&([0-9a-fk-or])", "\u00A7$1");
         return message;
     } 
 }
