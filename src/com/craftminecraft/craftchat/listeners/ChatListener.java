@@ -52,6 +52,11 @@ public final class ChatListener implements Listener {
 // Lowest priority ? Monitor priority ?
     @EventHandler(ignoreCancelled = true)
     public void onAsyncPlayerChatEvent(final AsyncPlayerChatEvent event){
+        if (this.plugin.chatManager.getFocus(event.getPlayer()) == null){
+            event.getPlayer().sendMessage("You need to join a channel first !");
+            event.setCancelled(true);
+            return;
+        }
         this.plugin.getLogger().info("Chat handled");
         event.setFormat(this.plugin.chatManager.formatString(event.getPlayer()));
         this.plugin.getLogger().info(event.getFormat());

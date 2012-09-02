@@ -1,5 +1,7 @@
 package com.craftminecraft.craftchat.utils;
 
+import java.util.regex.Pattern;
+
 import org.bukkit.entity.Player;
 
 import net.milkbowl.vault.chat.Chat;
@@ -44,14 +46,14 @@ public class Utils {
 
     public static String formatString(String message, Player player, Channel channel){
         message = message
-                  .replaceAll("(?i){WORLDNAME}", player.getWorld().getName())
-                  .replaceAll("(?i){PREFIX}", getPrefix(player))
-                  .replaceAll("(?i){SUFFIX}", getSuffix(player))
-                  .replaceAll("(?i){REALNAME}", player.getName())
-                  .replaceAll("(?i){DISPNAME}", "%1$s")
-                  .replaceAll("(?i){CHANNELNAME}", channel.getName())
-                  .replaceAll("(?i){CHANNELNICK}", channel.getNick())
-                  .replaceAll("(?i){MESSAGE}", "%2$s");
+                  .replaceAll("(?i)" + Pattern.quote("{WORLDNAME}"), player.getWorld().getName())
+                  .replaceAll("(?i)" + Pattern.quote("{PREFIX}"), getPrefix(player))
+                  .replaceAll("(?i)" + Pattern.quote("{SUFFIX}"), getSuffix(player))
+                  .replaceAll("(?i)" + Pattern.quote("{REALNAME}"), player.getName())
+                  .replaceAll("(?i)" + Pattern.quote("{DISPNAME}"), "%1\\$s")
+                  .replaceAll("(?i)" + Pattern.quote("{CHANNELNAME}"), channel.getName())
+                  .replaceAll("(?i)" + Pattern.quote("{CHANNELNICK}"), channel.getNick())
+                  .replaceAll("(?i)" + Pattern.quote("{MESSAGE}"), "%2\\$s");
         return message;
     } 
 }

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.io.File;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Pattern;
 
 import org.bukkit.entity.Player;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -29,12 +30,12 @@ public class ChatManager {
         this.channelList = new ArrayList<Channel>();
         this.playerConvs = new ConcurrentHashMap<Player, List<Channel>>();
         this.playerConvFocus = new ConcurrentHashMap<Player, Channel>();
-
+        this.formats = new ConcurrentHashMap<String, String>();
         // SETUP FORMATS //
-        for (String key : this.plugin.getConfig().getConfigurationSection("formats").getKeys(true)) {
+        for (String key : this.plugin.getConfig().getConfigurationSection("formats").getKeys(false)) {
             formats.put(key, this.plugin.getConfig().getString("formats." + key));
         }
-        
+
         // SETUP CHANNEL CONFIG //
         File chanListFile = new File(this.plugin.getDataFolder(), "channels.yml");
         YamlConfiguration chanListConfig = YamlConfiguration.loadConfiguration(chanListFile);
@@ -42,6 +43,8 @@ public class ChatManager {
         if (defChanListStream != null) {
             YamlConfiguration defChanList = YamlConfiguration.loadConfiguration(defChanListStream);
             chanListConfig.setDefaults(defChanList);
+        } else {
+            this.plugin.getLogger().info("builtin Channels.yml is not found !");
         }
         // SET UP CHANNEL LIST //
         Map<String,Object> chanList = chanListConfig.getDefaultSection().getValues(false);
@@ -55,6 +58,8 @@ public class ChatManager {
         for(Channel channel : channelList) {
             if (p.hasPermission("cmc.join." + channel.getName())) {
                 joinChannel(p, channel);
+                setFocus(p, channel);
+                // last channel to join is focus. Will change... eventually.
             }
         }
     }
@@ -109,7 +114,7 @@ public class ChatManager {
     
     public Channel getChannel(String name) {
         for (Channel channel : channelList) {
-            if ((channel.getName() == name) || (channel.getNick() == name)) {
+            if ((channel.getName().equalsIgnoreCase(name)) || (channel.getNick().equalsIgnoreCase(name))) {
                 return channel;
             }
         }
@@ -123,7 +128,7 @@ public class ChatManager {
     public String formatString(Player player, Channel channel) {
         String format = channel.getFormat();
         for (String formatname : formats.keySet()) {
-            format = format.replaceAll("(?i){" + formatname + "}", formats.get(formatname));
+            format = format.replaceAll("(?i)" + Pattern.quote("{" + formatname + "}"), formats.get(formatname));
         }
         return Utils.formatString(format, player, channel);
     }

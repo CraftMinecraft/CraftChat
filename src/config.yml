@@ -7,4 +7,4 @@
 # {PREFIX} : The group prefix of the player.
 # {SUFFIX} : The group suffix of the player.
 formats:
-    default: "{WORLDNAME} {DISPNAME} : {MESSAGE}"
+    default: "<{WORLDNAME}> <{DISPNAME}> : {MESSAGE}"

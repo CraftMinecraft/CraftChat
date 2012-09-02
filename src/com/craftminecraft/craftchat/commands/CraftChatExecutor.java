@@ -30,7 +30,7 @@ public class CraftChatExecutor implements CommandExecutor {
         }
         if (command.getName().equalsIgnoreCase("cc")) {
             if (args.length != 0) {
-                if (args[0] == "qm") {
+                if (args[0].equalsIgnoreCase("qm")) {
                     if (args.length < 2){
                         return false;
                     } else {
@@ -48,9 +48,20 @@ public class CraftChatExecutor implements CommandExecutor {
                         }
                         this.manager.chat(player, chat, qm);
                     }
+                } else if (args[0].equalsIgnoreCase("getchannels")) {
+                    player.sendMessage("Channels : ");
+                    for (Channel chan : this.manager.getChannelList()) {
+                        player.sendMessage(chan.getName() + " : " + chan.getNick());
+                    } 
+                    return true;
                 } else { // End if arg == qm
-                    this.manager.joinChannel(player, this.manager.getChannel(args[0]));
-                    this.manager.setFocus(player, this.manager.getChannel(args[0]));
+                    if (this.manager.getChannel(args[0]) != null) {
+                        this.manager.joinChannel(player, this.manager.getChannel(args[0]));
+                        this.manager.setFocus(player, this.manager.getChannel(args[0]));
+                        return true;
+                    } else {
+                        player.sendMessage("This channel does not exist !");
+                    }
                 }
             }
         }
