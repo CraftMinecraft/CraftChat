@@ -55,9 +55,9 @@ public class Utils {
                   .replaceAll("(?i)" + Pattern.quote("{DISPNAME}"), "%1\\$s")
                   .replaceAll("(?i)" + Pattern.quote("{CHANNELNAME}"), channel.getName())
                   .replaceAll("(?i)" + Pattern.quote("{CHANNELNICK}"), channel.getNick())
-                  .replaceAll("(?i)" + Pattern.quote("{CHANNELCOLOR"), channel.getColor())
+                  .replaceAll("(?i)" + Pattern.quote("{CHANNELCOLOR}"), channel.getColor())
                   .replaceAll("(?i)" + Pattern.quote("{MESSAGE}"), "%2\\$s");
-        Matcher matcher = Pattern.compile("(?i)\\{color.[a-zA-Z_]+\\}").matcher(message);
+        Matcher matcher = Pattern.compile("\\{color.[a-zA-Z_]+\\}").matcher(message);
         while (matcher.find()) {
             String match = matcher.group();
             String colorstr = match.substring(7, match.length() - 1);

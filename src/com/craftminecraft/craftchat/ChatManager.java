@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
@@ -43,8 +44,13 @@ public class ChatManager {
         if (defChanListStream != null) {
             YamlConfiguration defChanList = YamlConfiguration.loadConfiguration(defChanListStream);
             chanListConfig.setDefaults(defChanList);
+            try {
+                chanListConfig.save(new File(this.plugin.getDataFolder(), "channels.yml"));
+            } catch (IOException e) {
+                this.plugin.getLogger().warning("Couldn't save channels.yml. Oh well.");
+            }
         } else {
-            this.plugin.getLogger().info("builtin Channels.yml is not found !");
+            this.plugin.getLogger().warning("You modified our jar, builtin channels.yml is not found ! Bad boy !");
         }
         // SET UP CHANNEL LIST //
         Map<String,Object> chanList = chanListConfig.getDefaultSection().getValues(false);
