@@ -20,6 +20,7 @@ public class CraftChat extends JavaPlugin {
     @Override
     public void onEnable() {
         CraftChat.instance = this;
+        this.chatManager = new ChatManager(this);
         // TODO : Should probably map the config and set the defaults dynamically, JIC someone screws up their config file.
         getLogger().info("Enabling CraftChat version " + getDescription().getVersion());
         loadConfiguration();
