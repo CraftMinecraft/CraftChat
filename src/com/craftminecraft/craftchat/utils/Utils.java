@@ -1,8 +1,10 @@
 package com.craftminecraft.craftchat.utils;
 
 import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 import org.bukkit.entity.Player;
+import org.bukkit.ChatColor;
 
 import net.milkbowl.vault.chat.Chat;
 
@@ -53,7 +55,20 @@ public class Utils {
                   .replaceAll("(?i)" + Pattern.quote("{DISPNAME}"), "%1\\$s")
                   .replaceAll("(?i)" + Pattern.quote("{CHANNELNAME}"), channel.getName())
                   .replaceAll("(?i)" + Pattern.quote("{CHANNELNICK}"), channel.getNick())
+                  .replaceAll("(?i)" + Pattern.quote("{CHANNELCOLOR"), channel.getColor())
                   .replaceAll("(?i)" + Pattern.quote("{MESSAGE}"), "%2\\$s");
+        Matcher matcher = Pattern.compile("(?i)\\{color.[a-zA-Z_]+\\}").matcher(message);
+        while (matcher.find()) {
+            String match = matcher.group();
+            String colorstr = match.substring(7, match.length() - 1);
+            message.replaceAll(Pattern.quote(match), "\u00A7" + ChatColor.valueOf(colorstr.toUpperCase()).toString());
+        }
+        if (player.hasPermission("craftchat.colors")) {
+            message = message.replaceAll("&([0-9a-f])", "\u00A7$1");
+        } else {
+            message = message.replaceAll("&([0-9a-f])", "")
+                             .replaceAll("\u00A7([0-9a-f])", "");
+        }
         return message;
     } 
 }

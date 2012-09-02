@@ -1,9 +1,9 @@
-# Eclipse #
-###########
+# Eclipse and vim #
+###################
 .classpath
 .project
 .settings/*
-
+*.swp
 # merge stuff #
 ###############
 *.orig

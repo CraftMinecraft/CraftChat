@@ -6,5 +6,9 @@
 # {MESSAGE} : The message.
 # {PREFIX} : The group prefix of the player.
 # {SUFFIX} : The group suffix of the player.
+# {CHANNELNAME} : The name of the channel.
+# {CHANNELNICK} : The nickname of the channel.
+# {CHANNELCOLOR} : The color of the channel.
+# {COLOR.COLORCODE} : The color code, get a list at jd.bukkit.org/apidocs/org/bukkit/ChatColor.html#enum_constant_detail.
 formats:
-    default: "<{WORLDNAME}> <{DISPNAME}> : {MESSAGE}"
+    default: "<{WORLDNAME}> {CHANNELCOLOR}[{CHANNELNICK}]{COLOR.WHITE} [{PREFIX}] <{DISPNAME}> : {MESSAGE}"

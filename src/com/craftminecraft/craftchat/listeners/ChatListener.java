@@ -57,9 +57,7 @@ public final class ChatListener implements Listener {
             event.setCancelled(true);
             return;
         }
-        this.plugin.getLogger().info("Chat handled");
         event.setFormat(this.plugin.chatManager.formatString(event.getPlayer()));
-        this.plugin.getLogger().info(event.getFormat());
         event.getRecipients().clear();
         event.getRecipients().addAll(this.plugin.chatManager.getFocus(event.getPlayer()).getParticipants());
     }
