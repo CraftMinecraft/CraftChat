@@ -17,7 +17,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
 import com.craftminecraft.craftchat.CraftChat;
-
+import com.craftminecraft.craftchat.utils.Utils;
 
 // IMPORTANT NOTE : UPON COMPILATION, Either onPlayerChatEvent or onAsyncPlayerChatEvent SHOULD BE commented out, depending on if we want version 1.2.5 or version 1.3.1. Will find a way to do this.
 
@@ -58,6 +58,7 @@ public final class ChatListener implements Listener {
             return;
         }
         event.setFormat(this.plugin.chatManager.formatString(event.getPlayer()));
+        event.setMessage(Utils.colorise(event.getMessage(), event.getPlayer()));
         event.getRecipients().clear();
         event.getRecipients().addAll(this.plugin.chatManager.getFocus(event.getPlayer()).getParticipants());
     }

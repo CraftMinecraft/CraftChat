@@ -66,5 +66,15 @@ public class Utils {
         }
         message = message.replaceAll("&([0-9a-fk-or])", "\u00A7$1");
         return message;
-    } 
+    }
+
+    public static String colorise(String message, Player p) {
+        if (p.hasPermission("craftchat.colors")) {
+            message = message.replaceAll("&([0-9a-fk-or])", "\u00A7$1");
+        } else {
+            message = message.replaceAll("&([0-9a-fk-or])", "");
+            message = message.replaceAll("\u00A7([0-9a-fk-or])", "");
+        }
+        return message;
+    }
 }
