@@ -51,6 +51,7 @@
           <include>plugin.yml</include>
           <include>config.yml</include>
           <include>channels.yml</include>
+          <include>players.yml</include>
         </includes>
       </resource>
     </resources>

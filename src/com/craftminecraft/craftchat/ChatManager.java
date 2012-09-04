@@ -11,12 +11,13 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
 import org.bukkit.entity.Player;
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 
 import com.craftminecraft.craftchat.CraftChat;
 import com.craftminecraft.craftchat.conversations.Channel;
 import com.craftminecraft.craftchat.utils.Utils;
+import com.craftminecraft.craftchat.utils.ConfigAccessor;
 
 public class ChatManager {
     private CraftChat plugin;
@@ -25,9 +26,13 @@ public class ChatManager {
     private ConcurrentHashMap<Player, List<Channel>> playerConvs;
     private ConcurrentHashMap<Player, Channel> playerConvFocus;
     private ConcurrentHashMap<String, String> formats;
+    private ConfigAccessor chanListConfig = null;
+    private ConfigAccessor playerConfig = null;
 
     public ChatManager(CraftChat plugin) {
         this.plugin = plugin;
+        this.chanListConfig = new ConfigAccessor(this.plugin, "channels.yml");
+        this.playerConfig = new ConfigAccessor(this.plugin, "players.yml");
         this.channelList = new ArrayList<Channel>();
         this.playerConvs = new ConcurrentHashMap<Player, List<Channel>>();
         this.playerConvFocus = new ConcurrentHashMap<Player, Channel>();
@@ -36,24 +41,37 @@ public class ChatManager {
         for (String key : this.plugin.getConfig().getConfigurationSection("formats").getKeys(false)) {
             formats.put(key, this.plugin.getConfig().getString("formats." + key));
         }
+        
+        this.playerConfig.saveDefaultConfig();
 
         // SETUP CHANNEL CONFIG //
-        File chanListFile = new File(this.plugin.getDataFolder(), "channels.yml");
-        YamlConfiguration chanListConfig = YamlConfiguration.loadConfiguration(chanListFile);
-        InputStream defChanListStream = this.plugin.getResource("channels.yml");
-        if (defChanListStream != null) {
-            YamlConfiguration defChanList = YamlConfiguration.loadConfiguration(defChanListStream);
-            chanListConfig.setDefaults(defChanList);
-            try {
-                chanListConfig.save(new File(this.plugin.getDataFolder(), "channels.yml"));
-            } catch (IOException e) {
-                this.plugin.getLogger().warning("Couldn't save channels.yml. Oh well.");
-            }
-        } else {
-            this.plugin.getLogger().warning("You modified our jar, builtin channels.yml is not found ! Bad boy !");
-        }
+        this.chanListConfig.saveDefaultConfig();
+
         // SET UP CHANNEL LIST //
-        Map<String,Object> chanList = chanListConfig.getDefaultSection().getValues(false);
+        Map<String,Object> chanList = chanListConfig.getConfig().getDefaultSection().getValues(false);
+        for (Map.Entry<String, Object> chan : chanList.entrySet()) {
+            ConfigurationSection chanConfig = (ConfigurationSection) chan.getValue();
+            this.channelList.add(new Channel(chanConfig));
+        }
+    }
+
+    public void save() {
+        for (Channel chan : this.channelList) {
+            this.chanListConfig.getConfig().set(chan.getName() + ".nick", chan.getNick());
+            this.chanListConfig.getConfig().set(chan.getName() + ".color", chan.getColor());
+            this.chanListConfig.getConfig().set(chan.getName() + ".format", chan.getFormat());
+        }
+        this.chanListConfig.saveConfig();
+    }
+
+    public void reload() {
+        this.chanListConfig.reloadConfig();
+        // reload channelList.
+        this.channelList.clear();
+        // This should get loaded back by player config. //
+        this.playerConvs.clear();
+        this.playerConvFocus.clear();
+        Map<String,Object> chanList = chanListConfig.getConfig().getDefaultSection().getValues(false);
         for (Map.Entry<String, Object> chan : chanList.entrySet()) {
             ConfigurationSection chanConfig = (ConfigurationSection) chan.getValue();
             this.channelList.add(new Channel(chanConfig));
@@ -62,12 +80,20 @@ public class ChatManager {
 
     public void autoJoinChannels(Player p) {
         for(Channel channel : channelList) {
-            if (p.hasPermission("cmc.join." + channel.getName())) {
+            if (p.hasPermission("cmc.auto.join." + channel.getName())) {
                 joinChannel(p, channel);
-                setFocus(p, channel);
-                // last channel to join is focus. Will change... eventually.
             }
         }
+        if (this.playerConfig.getConfig().getStringList(p.getName() + ".channels") == null) {
+            this.playerConfig.getConfig().set(p.getName() + ".channels", new ArrayList<String>());
+        }
+        List<String> tempList = this.playerConfig.getConfig().getStringList(p.getName() + ".channels");
+        for (String chanName : tempList) {
+            if (this.getChannel(chanName) != null) {
+                this.joinChannel(p, this.getChannel(chanName));
+            }
+        }
+        this.setFocus(p, this.getChannel(this.playerConfig.getConfig().getString(p.getName() + ".focus", this.plugin.getConfig().getString("defaultChannel"))));
     }
 
     public void autoLeaveChannels(Player p) {
@@ -84,8 +110,13 @@ public class ChatManager {
             convList = new ArrayList<Channel>();
         }
         convList.add(joinChan);
+        if (this.playerConfig.getConfig().getStringList(p.getName() + ".channels") == null) {
+            this.playerConfig.getConfig().set(p.getName() + ".channels", new ArrayList<String>());
+        }
+        List<String> tempList = this.playerConfig.getConfig().getStringList(p.getName() + ".channels");
+        tempList.add(joinChan.getName());
+        this.playerConfig.getConfig().set(p.getName() + ".channels", tempList);
         this.playerConvs.put(p, convList);
-
         // also put in participents of channel.
         joinChan.join(p);
         return true;
@@ -106,11 +137,20 @@ public class ChatManager {
             convList.remove(leaveChan);
             this.playerConvs.put(p, convList);
         }
+        if (this.playerConfig.getConfig().getStringList(p.getName() + ".channels") == null) {
+            this.playerConfig.getConfig().set(p.getName() + ".channels", new ArrayList<String>());
+        }
+        List<String> tempList = this.playerConfig.getConfig().getStringList(p.getName() + ".channels");
+        if (tempList.contains(leaveChan.getName())) {
+            tempList.remove(leaveChan.getName());
+            this.playerConfig.getConfig().set(p.getName() + ".channels", tempList);
+        }
         leaveChan.leave(p);
     }
 
     public void setFocus(Player p, Channel channel) {
         playerConvFocus.put(p, channel);
+        this.playerConfig.getConfig().set(p.getName() + ".focus", channel.getName());
     }
 
     public Channel getFocus(Player p) {

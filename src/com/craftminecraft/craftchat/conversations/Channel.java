@@ -25,6 +25,11 @@ public class Channel {
     public void join(Player p) {
         if (!(this.participants.contains(p))) {
             this.participants.add(p);
+            for (Player player : this.participants) {
+                if (player.isOnline()) {
+                    player.sendMessage(p.getDisplayName() + " has joined " + this.getName() + ".");
+                }
+            }
         }
     }
 

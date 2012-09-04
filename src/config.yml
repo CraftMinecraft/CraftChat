@@ -12,3 +12,4 @@
 # {COLOR.COLORCODE} : The color code, get a list at jd.bukkit.org/apidocs/org/bukkit/ChatColor.html#enum_constant_detail.
 formats:
     default: "<{WORLDNAME}> {CHANNELCOLOR}[{CHANNELNICK}]{COLOR.WHITE} [{PREFIX}] <{DISPNAME}> : {MESSAGE}"
+defaultChannel: "General"
