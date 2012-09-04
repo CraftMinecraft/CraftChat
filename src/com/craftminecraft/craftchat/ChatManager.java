@@ -32,7 +32,9 @@ public class ChatManager {
     public ChatManager(CraftChat plugin) {
         this.plugin = plugin;
         this.chanListConfig = new ConfigAccessor(this.plugin, "channels.yml");
+        this.chanListConfig.getConfig();
         this.playerConfig = new ConfigAccessor(this.plugin, "players.yml");
+        this.playerConfig.getConfig();
         this.channelList = new ArrayList<Channel>();
         this.playerConvs = new ConcurrentHashMap<Player, List<Channel>>();
         this.playerConvFocus = new ConcurrentHashMap<Player, Channel>();
