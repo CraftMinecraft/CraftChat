@@ -26,13 +26,9 @@ public class ChatManager {
     private ConcurrentHashMap<Player, List<Channel>> playerConvs;
     private ConcurrentHashMap<Player, Channel> playerConvFocus;
     private ConcurrentHashMap<String, String> formats;
-    private ConfigAccessor chanListConfig = null;
-    private ConfigAccessor playerConfig = null;
 
     public ChatManager(CraftChat plugin) {
         this.plugin = plugin;
-        this.chanListConfig = new ConfigAccessor(this.plugin, "channels.yml");
-        this.chanListConfig.getConfig();
         this.playerConfig = new ConfigAccessor(this.plugin, "players.yml");
         this.playerConfig.getConfig();
         this.channelList = new ArrayList<Channel>();
@@ -45,6 +41,15 @@ public class ChatManager {
         }
         
         this.playerConfig.saveDefaultConfig();
+
+        File dir = new File(this.plugin.getDataFolder, "channels");
+        for (File child : dir.listFiles()) {
+            if (".".equals(child.getName()) || "..".equals(child.getName())) {
+                continue;
+            }
+            Channel newChan = new Channel(child);
+            this.channelList.add(newChan);
+        }
 
         // SETUP CHANNEL CONFIG //
         this.chanListConfig.saveDefaultConfig();
@@ -67,8 +72,9 @@ public class ChatManager {
     }
 
     public void reload() {
-        this.chanListConfig.reloadConfig();
+        this.playerConfig.save();
         // reload channelList.
+        this.chanListConfig.reloadConfig();
         this.channelList.clear();
         // This should get loaded back by player config. //
         this.playerConvs.clear();
@@ -78,6 +84,14 @@ public class ChatManager {
             ConfigurationSection chanConfig = (ConfigurationSection) chan.getValue();
             this.channelList.add(new Channel(chanConfig));
         }
+        for (Player player : this.plugin.getServer().getOnlinePlayers()) {
+            player.autoJoinChannel(player);
+        }
+    }
+
+    public void save() {
+        this.playerConfig.save();
+        this.chanListConfig.save();
     }
 
     public void autoJoinChannels(Player p) {

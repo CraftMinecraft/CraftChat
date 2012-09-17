@@ -18,6 +18,7 @@ public class CraftChatExecutor implements CommandExecutor {
        this.manager = plugin.chatManager;
     }
 
+    // todo: Make this oh-so-messy function less oh-so-messy
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player = null;

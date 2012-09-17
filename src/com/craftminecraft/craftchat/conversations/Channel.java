@@ -1,10 +1,12 @@
 package com.craftminecraft.craftchat.conversations;
 
+import java.io.File;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Collections;
 
 import org.bukkit.entity.Player;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.configuration.ConfigurationSection;
 
 public class Channel {
@@ -14,7 +16,7 @@ public class Channel {
     private String format;
     private String color;
 
-    public Channel (ConfigurationSection config) {
+    public Channel (ConfigurationSection config, File filename) {
         this.participants = Collections.synchronizedSet(new HashSet());
         this.name = config.getName();
         this.nick = config.getString("nick", "");
@@ -39,10 +41,16 @@ public class Channel {
         }
     }
 
+    public void setName(String localname) {
+        this.name = localname;
+    }
+
     public String getName() {
         return this.name;
     }
 
+    public void setNick() {
+	
     public String getNick() {
         return this.nick;
     }

@@ -13,3 +13,4 @@
 formats:
     default: "<{WORLDNAME}> {CHANNELCOLOR}[{CHANNELNICK}]{COLOR.WHITE} [{PREFIX}] <{DISPNAME}> : {MESSAGE}"
 defaultChannel: "General"
+
